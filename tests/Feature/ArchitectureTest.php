@@ -16,11 +16,10 @@ arch('actions')
     ->expect('App\Modules\*\Application\Actions')
     ->toExtend('App\Core\BaseAction');
 
-// Los controladores deben ser invokables y delgados, ignorando la clase base Controller
+// Los controladores deben ser invokables y delgados
 arch('controllers')
-    ->expect('App\Modules\*\Presentation')
-    ->toBeInvokable()
-    ->ignoring('App\Http\Controllers\Controller');
+    ->expect('App\Modules\*\Presentation\Controllers')
+    ->toBeInvokable();
 
 // Prohibir IDs incrementales, usar UUIDs
 arch('uuids')

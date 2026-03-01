@@ -2,24 +2,105 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Modules\Company\Domain\Models\Company;
+use App\Modules\Auth\Domain\Models\User;
+use App\Modules\Properties\Domain\Models\Ubigeo;
+use App\Modules\Properties\Domain\Models\Property;
+use App\Modules\Properties\Domain\Models\Amenity;
+use App\Modules\Billing\Domain\Models\Plan;
+use App\Modules\CRM\Domain\Models\PipelineStage;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // 1. Ubigeos (Sample for Lima)
+        Ubigeo::updateOrCreate(['id' => '150101'], [
+            'department' => 'Lima',
+            'province' => 'Lima',
+            'district' => 'Lima',
         ]);
+        Ubigeo::updateOrCreate(['id' => '150122'], [
+            'department' => 'Lima',
+            'province' => 'Lima',
+            'district' => 'Miraflores',
+        ]);
+
+        // 2. Plans
+        $planBasic = Plan::create([
+            'name' => 'Plan Básico',
+            'slug' => 'basic',
+            'description' => 'Ideal para agentes independientes',
+            'price' => 29.90,
+            'features' => ['10 propiedades', 'Soporte básico'],
+            'is_active' => true
+        ]);
+
+        $planPremium = Plan::create([
+            'name' => 'Plan Premium',
+            'slug' => 'premium',
+            'description' => 'Para agencias inmobiliarias',
+            'price' => 99.90,
+            'features' => ['Propiedades ilimitadas', 'IA Lead Scoring', 'Soporte prioritario'],
+            'is_active' => true
+        ]);
+
+        // 3. Companies & Users
+        $company = Company::create([
+            'name' => 'Inmobiliaria Demo',
+            'slug' => 'inmobiliaria-demo',
+            'settings' => ['theme' => 'light']
+        ]);
+
+        $admin = User::create([
+            'company_id' => $company->id,
+            'name' => 'Admin Demo',
+            'email' => 'admin@demo.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        // 4. Amenities
+        $amenities = ['Piscina', 'Gimnasio', 'Seguridad 24/7', 'Área de Parrillas', 'Elevador'];
+        $amenityModels = [];
+        foreach ($amenities as $name) {
+            $amenityModels[] = Amenity::create(['name' => $name]);
+        }
+
+        // 5. Pipeline Stages
+        $stages = ['Captación', 'Contactado', 'Visita Programada', 'Negociación', 'Cerrado'];
+        foreach ($stages as $index => $name) {
+            PipelineStage::create([
+                'company_id' => $company->id,
+                'name' => $name,
+                'order' => $index + 1
+            ]);
+        }
+
+        // 6. Properties
+        for ($i = 1; $i <= 5; $i++) {
+            $property = Property::create([
+                'company_id' => $company->id,
+                'user_id' => $admin->id,
+                'ubigeo_id' => '150122',
+                'title' => "Departamento de Lujo en Miraflores #$i",
+                'description' => 'Increíble vista al mar y acabados de lujo.',
+                'type' => 'apartment',
+                'operation' => 'sale',
+                'price' => 250000 + ($i * 10000),
+                'currency' => 'USD',
+                'area_total' => 120,
+                'bedrooms' => 3,
+                'bathrooms' => 2,
+                'address' => "Av. Larco $i",
+                'status' => 'published',
+            ]);
+
+            $property->amenities()->attach([$amenityModels[0]->id, $amenityModels[2]->id]);
+        }
     }
 }

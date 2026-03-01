@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Modules\Admin\Presentation\Controllers\Users;
+
+use App\Modules\Auth\Domain\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
+
+class StoreUserController
+{
+    public function __invoke(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', Password::defaults()],
+        ]);
+
+        User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'company_id' => $request->user()->company_id,
+        ]);
+
+        return redirect()->route('admin.users.index')
+            ->with('message', 'User created successfully');
+    }
+}

@@ -44,5 +44,13 @@ class FortifyServiceProvider extends ServiceProvider
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
+
+        // Configuración Headless para Fortify
+        Fortify::loginView(fn() => response()->json(['message' => 'Login required'], 401));
+        Fortify::registerView(fn() => response()->json(['message' => 'Registration required'], 401));
+        Fortify::verifyEmailView(fn() => response()->json(['message' => 'Email verification required'], 401));
+        Fortify::resetPasswordView(fn($request) => response()->json(['message' => 'Password reset required'], 401));
+        Fortify::confirmPasswordView(fn() => response()->json(['message' => 'Password confirmation required'], 401));
+        Fortify::twoFactorChallengeView(fn() => response()->json(['message' => '2FA challenge required'], 401));
     }
 }

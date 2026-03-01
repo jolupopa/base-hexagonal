@@ -2,7 +2,7 @@
 
 namespace App\Domains\Auth\Actions;
 
-use App\Models\User;
+use App\Modules\Auth\Domain\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -20,6 +20,7 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input): User
     {
         Validator::make($input, [
+            'company_id' => ['required', 'uuid', 'exists:companies,id'],
             'name' => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
@@ -32,6 +33,7 @@ class CreateNewUser implements CreatesNewUsers
         ])->validate();
 
         return User::create([
+            'company_id' => $input['company_id'],
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),

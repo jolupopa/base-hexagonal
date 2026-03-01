@@ -7,10 +7,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Modules\Auth\Domain\Models\User>
  */
 class UserFactory extends Factory
 {
+    protected $model = \App\Modules\Auth\Domain\Models\User::class;
     /**
      * The current password being used by the factory.
      */
@@ -24,6 +25,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'company_id' => \App\Modules\Company\Domain\Models\Company::factory(),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),

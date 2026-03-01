@@ -3,19 +3,25 @@
 namespace App\Modules\Company\Domain\Models;
 
 use App\Core\BaseModel;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Modules\Auth\Domain\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends BaseModel
 {
+    use SoftDeletes, HasFactory;
+
+    protected static function newFactory()
+    {
+        return \Database\Factories\CompanyFactory::new();
+    }
+
     protected $fillable = [
         'name',
-        'email',
-        'subscription_plan',
+        'slug',
+        'settings',
     ];
 
-    public function users(): HasMany
-    {
-        return $this->hasMany(User::class);
-    }
+    protected $casts = [
+        'settings' => 'array',
+    ];
 }

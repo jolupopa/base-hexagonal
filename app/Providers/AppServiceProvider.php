@@ -19,6 +19,15 @@ class AppServiceProvider extends ServiceProvider
                 );
             }
         );
+
+        $this->app->bind(
+            \App\Modules\CRM\Domain\Services\AIServiceInterface::class,
+            function ($app) {
+                return new \App\Modules\CRM\Infrastructure\Services\GeminiService(
+                    config('services.gemini.api_key', env('GEMINI_API_KEY'))
+                );
+            }
+        );
     }
 
     /**

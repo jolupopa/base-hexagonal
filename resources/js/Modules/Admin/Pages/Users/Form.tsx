@@ -3,6 +3,12 @@ import { Head, useForm, Link } from '@inertiajs/react';
 import AdminLayout from '@/Layouts/AdminLayout';
 import users from '@/routes/admin/users';
 
+interface Role {
+    id: string;
+    name: string;
+    slug: string;
+}
+
 interface User {
     id?: string;
     name: string;
@@ -10,13 +16,15 @@ interface User {
     company_name?: string | null;
     avatar_url?: string | null;
     initials?: string;
+    roles?: Role[];
 }
 
 interface Props {
     user?: User;
+    roles: Role[];
 }
 
-export default function Form({ user }: Props) {
+export default function Form({ user, roles }: Props) {
     const fileRef = useRef<HTMLInputElement>(null);
     const { data, setData, post, processing, errors } = useForm({
         name: user?.name || '',
@@ -25,6 +33,7 @@ export default function Form({ user }: Props) {
         password: '',
         password_confirmation: '',
         avatar: null as File | null,
+        role_id: user?.roles?.[0]?.id || '',
     });
 
     const submit = (e: React.FormEvent) => {
@@ -121,7 +130,7 @@ export default function Form({ user }: Props) {
                         </div>
 
                         {/* Empresa */}
-                        <div className="flex flex-col gap-2 md:col-span-2">
+                        <div className="flex flex-col gap-2">
                             <label className="text-xs font-bold uppercase tracking-widest text-[#A0A0A0]">Nombre de Empresa / Agencia</label>
                             <input
                                 type="text"
@@ -131,6 +140,23 @@ export default function Form({ user }: Props) {
                                 placeholder="Ej. Estate Manager Realty"
                             />
                             {errors.company_name && <p className="text-xs text-red-400">{errors.company_name}</p>}
+                        </div>
+
+                        {/* Rol */}
+                        <div className="flex flex-col gap-2">
+                            <label className="text-xs font-bold uppercase tracking-widest text-[#A0A0A0]">Rol en el Sistema</label>
+                            <select
+                                value={data.role_id}
+                                onChange={e => setData('role_id', e.target.value)}
+                                className="rounded-xl border border-[#333333] bg-[#121212] px-4 py-3 text-sm text-white focus:border-[#FACC15] focus:ring-[#FACC15]/20"
+                                required
+                            >
+                                <option value="" disabled>Seleccionar Rol</option>
+                                {roles.map((role: Role) => (
+                                    <option key={role.id} value={role.id}>{role.name}</option>
+                                ))}
+                            </select>
+                            {errors.role_id && <p className="text-xs text-red-400">{errors.role_id}</p>}
                         </div>
 
                         {!user && (

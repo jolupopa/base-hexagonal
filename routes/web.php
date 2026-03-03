@@ -29,18 +29,23 @@ Route::post('/companies', \App\Modules\Company\Presentation\Controllers\StoreCom
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/dashboard', \App\Modules\Analytics\Presentation\Controllers\DashboardController::class)
+        ->middleware('permission:dashboard.view')
         ->name('dashboard');
 
     Route::get('/propiedades', \App\Modules\Properties\Presentation\Controllers\ListPropertiesController::class)
+        ->middleware('permission:properties.manage')
         ->name('properties.index');
 
     Route::get('/propiedades/crear', \App\Modules\Properties\Presentation\Controllers\CreatePropertyController::class)
+        ->middleware('permission:properties.manage')
         ->name('properties.create');
 
     Route::get('/crm/pipeline', \App\Modules\CRM\Presentation\Controllers\PipelineController::class)
+        ->middleware('permission:properties.manage')
         ->name('crm.pipeline');
 
     Route::get('/billing', \App\Modules\Billing\Presentation\Controllers\PricingController::class)
+        ->middleware('role:admin,company')
         ->name('billing.index');
 
     // ── Perfil del usuario autenticado ───────────────────────────────────────
@@ -51,21 +56,34 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/profile/avatar', \App\Modules\Profile\Presentation\Controllers\UpdateAvatarController::class)
         ->name('profile.avatar');
 
-    // ── Admin / Usuarios ─────────────────────────────────────────────────────
-    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    // ── Admin / Usuarios (Solo Admin y Empresa) ─────────────────────────────
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'permission:users.manage'], function () {
         Route::get('/usuarios', \App\Modules\Admin\Presentation\Controllers\Users\IndexUserController::class)
             ->name('users.index');
         Route::get('/usuarios/crear', function() {
-            return inertia('Admin::Users/Form');
+            return inertia('Admin::Users/Form', [
+                'roles' => \App\Modules\ACL\Domain\Models\Role::all()
+            ]);
         })->name('users.create');
         Route::post('/usuarios', \App\Modules\Admin\Presentation\Controllers\Users\StoreUserController::class)
             ->name('users.store');
         Route::get('/usuarios/{user}/editar', function(\App\Modules\Auth\Domain\Models\User $user) {
-            return inertia('Admin::Users/Form', ['user' => $user]);
+            return inertia('Admin::Users/Form', [
+                'user' => $user->load('roles'),
+                'roles' => \App\Modules\ACL\Domain\Models\Role::all()
+            ]);
         })->name('users.edit');
         Route::put('/usuarios/{user}', \App\Modules\Admin\Presentation\Controllers\Users\UpdateUserController::class)
             ->name('users.update');
         Route::delete('/usuarios/{user}', \App\Modules\Admin\Presentation\Controllers\Users\DeleteUserController::class)
             ->name('users.destroy');
+
+        // ── Gestión ACL (Roles y Permisos) ──────────────────────────────────
+        Route::get('/acl', function() {
+            return inertia('Admin::Acl', [
+                'roles' => \App\Modules\ACL\Domain\Models\Role::with('permissions')->get(),
+                'permissions' => \App\Modules\ACL\Domain\Models\Permission::all(),
+            ]);
+        })->name('acl.index');
     });
 });

@@ -41,6 +41,12 @@ class HandleInertiaRequests extends Middleware
                         ? '/storage/' . $request->user()->avatar_url
                         : null,
                     'initials'     => $request->user()->getInitials(),
+                    'roles'        => $request->user()->roles->pluck('slug')->values()->all(),
+                    'permissions'  => $request->user()->roles->flatMap->permissions->pluck('slug')
+                        ->merge($request->user()->permissions->pluck('slug'))
+                        ->unique()
+                        ->values()
+                        ->all(),
                 ] : null,
             ],
             'flash' => [

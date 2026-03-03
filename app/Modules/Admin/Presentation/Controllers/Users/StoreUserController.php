@@ -17,6 +17,7 @@ class StoreUserController
             'company_name' => ['nullable', 'string', 'max:255'],
             'password'     => ['required', 'confirmed', Password::defaults()],
             'avatar'       => ['nullable', 'image', 'max:2048'],
+            'role_id'      => ['required', 'uuid', 'exists:roles,id'],
         ]);
 
         $avatarUrl = null;
@@ -24,7 +25,7 @@ class StoreUserController
             $avatarUrl = $request->file('avatar')->store('avatars', 'public');
         }
 
-        User::create([
+        $user = User::create([
             'name'         => $validated['name'],
             'email'        => $validated['email'],
             'company_name' => $validated['company_name'] ?? null,
@@ -32,6 +33,8 @@ class StoreUserController
             'avatar_url'   => $avatarUrl,
             'company_id'   => $request->user()->company_id,
         ]);
+
+        $user->roles()->sync([$validated['role_id']]);
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Usuario creado correctamente');

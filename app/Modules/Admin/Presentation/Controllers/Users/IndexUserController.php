@@ -13,12 +13,30 @@ class IndexUserController
 {
     public function __invoke(Request $request): Response
     {
-        $users = User::where('company_id', $request->user()->company_id)
-            ->latest()
-            ->paginate();
+        $query = User::where('company_id', $request->user()->company_id)
+            ->with('roles')
+            ->latest();
+
+        // Búsqueda
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'ILIKE', "%{$search}%")
+                  ->orWhere('email', 'ILIKE', "%{$search}%");
+            });
+        }
+
+        // Filtro por Rol
+        if ($request->filled('role')) {
+            $query->whereHas('roles', function($q) use ($request) {
+                $q->where('slug', $request->input('role'));
+            });
+        }
 
         return Inertia::render('Admin::Users/Index', [
-            'users' => UserResource::collection($users)
+            'users' => UserResource::collection($query->paginate()->withQueryString()),
+            'filters' => $request->only(['search', 'role']),
+            'availableRoles' => \App\Modules\ACL\Domain\Models\Role::all(['id', 'name', 'slug'])
         ]);
     }
 }

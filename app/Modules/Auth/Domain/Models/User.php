@@ -9,11 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use App\Modules\ACL\Domain\Traits\HasACL;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasUuids, TwoFactorAuthenticatable;
+    use HasFactory, Notifiable, HasUuids, TwoFactorAuthenticatable, HasACL;
 
     protected static function newFactory()
     {

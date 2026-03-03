@@ -15,6 +15,7 @@ class UpdateUserController
             'email'        => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'company_name' => ['nullable', 'string', 'max:255'],
             'avatar'       => ['nullable', 'image', 'max:2048'],
+            'role_id'      => ['required', 'uuid', 'exists:roles,id'],
         ]);
 
         if ($request->hasFile('avatar')) {
@@ -30,6 +31,8 @@ class UpdateUserController
             'company_name' => $validated['company_name'] ?? $user->company_name,
             'avatar_url'   => $validated['avatar_url'] ?? $user->avatar_url,
         ]);
+
+        $user->roles()->sync([$validated['role_id']]);
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Usuario actualizado correctamente');

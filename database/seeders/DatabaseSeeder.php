@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(ACLSeeder::class);
+
         // 1. Ubigeos (Sample for Lima)
         Ubigeo::updateOrCreate(['id' => '150101'], [
             'department' => 'Lima',

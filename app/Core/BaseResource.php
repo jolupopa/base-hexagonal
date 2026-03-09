@@ -7,8 +7,24 @@ use Carbon\Carbon;
 
 class BaseResource extends JsonResource
 {
-    protected function transformDate($date): ?string
+    /**
+     * Transform the given date into multiple formats.
+     */
+    protected function transformDate($date): ?array
     {
-        return $date instanceof Carbon ? $date->toISOString() : $date;
+        if (!$date instanceof Carbon && !is_string($date)) {
+            return null;
+        }
+
+        $carbon = $date instanceof Carbon ? $date : Carbon::parse($date);
+
+        return [
+            'iso' => $carbon->toISOString(),
+            'human' => $carbon->diffForHumans(),
+            'display' => $carbon->format('d/m/Y'),
+            'datetime' => $carbon->format('d/m/Y H:i'),
+            'time' => $carbon->format('H:i'),
+            'timestamp' => $carbon->timestamp,
+        ];
     }
 }

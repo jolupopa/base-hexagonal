@@ -1,6 +1,8 @@
 import React, { PropsWithChildren } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { home, register, dashboard, login, logout } from '@/routes';
+import publicProperties from '@/routes/public/properties';
+
 
 export default function FrontLayout({ children }: PropsWithChildren) {
     const { auth } = usePage().props as any;
@@ -28,7 +30,8 @@ export default function FrontLayout({ children }: PropsWithChildren) {
                         <Link href={home.url()} className="text-sm font-medium text-[#A0A0A0] transition-colors hover:text-[#FACC15]">
                             Inicio
                         </Link>
-                        <Link href="/propiedades" className="text-sm font-medium text-[#A0A0A0] transition-colors hover:text-[#FACC15]">
+                        <Link href={publicProperties.index.url()} className="text-sm font-medium text-[#A0A0A0] transition-colors hover:text-[#FACC15]">
+
                             Propiedades
                         </Link>
                         <Link href="/precios" className="text-sm font-medium text-[#A0A0A0] transition-colors hover:text-[#FACC15]">

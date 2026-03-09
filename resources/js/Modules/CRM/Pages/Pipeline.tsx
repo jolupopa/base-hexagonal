@@ -1,6 +1,5 @@
-import React from 'react';
 import { Head } from '@inertiajs/react';
-import AdminLayout from '@/Layouts/AdminLayout';
+import ClientLayout from '@/Layouts/ClientLayout';
 
 interface Stage {
     id: string;
@@ -16,7 +15,7 @@ interface Lead {
 }
 
 interface Props {
-    stages: Stage[];
+    stages: { data: Stage[] };
     leads: { data: Lead[] };
 }
 
@@ -29,7 +28,7 @@ const stageColors: Record<number, string> = {
 
 export default function Pipeline({ stages, leads }: Props) {
     return (
-        <AdminLayout>
+        <ClientLayout>
             <Head title="Sales Pipeline — EstateManager" />
 
             <div className="flex flex-col gap-8">
@@ -51,7 +50,7 @@ export default function Pipeline({ stages, leads }: Props) {
 
                 {/* Kanban Board */}
                 <div className="flex gap-5 overflow-x-auto pb-6">
-                    {stages.map((stage, idx) => {
+                    {stages.data.map((stage, idx) => {
                         const stageLeads = leads.data.filter(l => l.stage_id === stage.id);
                         return (
                             <div key={stage.id} className="w-72 flex-shrink-0">
@@ -115,6 +114,6 @@ export default function Pipeline({ stages, leads }: Props) {
                     })}
                 </div>
             </div>
-        </AdminLayout>
+        </ClientLayout>
     );
 }

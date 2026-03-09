@@ -33,6 +33,7 @@ class User extends Authenticatable
         'email',
         'password',
         'avatar_url',
+        'property_limit',
     ];
 
     /**
@@ -55,12 +56,23 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'property_limit' => 'integer',
         ];
     }
 
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function properties(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Modules\Properties\Domain\Models\Property::class);
+    }
+
+    public function publishedProperties(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->properties()->where('status', 'published');
     }
 
     /**

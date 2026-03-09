@@ -34,18 +34,16 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // 2. Plans
-        $planBasic = Plan::create([
+        $planBasic = Plan::updateOrCreate(['slug' => 'basic'], [
             'name' => 'Plan Básico',
-            'slug' => 'basic',
             'description' => 'Ideal para agentes independientes',
             'price' => 29.90,
             'features' => ['10 propiedades', 'Soporte básico'],
             'is_active' => true
         ]);
 
-        $planPremium = Plan::create([
+        $planPremium = Plan::updateOrCreate(['slug' => 'premium'], [
             'name' => 'Plan Premium',
-            'slug' => 'premium',
             'description' => 'Para agencias inmobiliarias',
             'price' => 99.90,
             'features' => ['Propiedades ilimitadas', 'IA Lead Scoring', 'Soporte prioritario'],
@@ -53,9 +51,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // 3. Companies & Users
-        $company = Company::create([
-            'name' => 'Inmobiliaria Demo',
-            'slug' => 'inmobiliaria-demo',
+        $company = Company::where('slug', 'estatemanager-system')->first() ?: Company::create([
+            'name' => 'EstateManager System',
+            'slug' => 'estatemanager-system',
             'settings' => ['theme' => 'dark']
         ]);
 
@@ -79,14 +77,20 @@ class DatabaseSeeder extends Seeder
             return null;
         };
 
-        $admin = User::create([
+        $admin = User::firstOrCreate([
+            'email' => 'admin@demo.com',
+        ], [
             'company_id'   => $company->id,
             'name'         => 'Admin Demo',
             'company_name' => 'Real Estate Premium',
-            'email'        => 'admin@demo.com',
             'password'     => Hash::make('password'),
             'avatar_url'   => $downloadAvatar('admin'),
         ]);
+
+        $adminRole = \App\Modules\ACL\Domain\Models\Role::where('slug', 'admin')->first();
+        if ($adminRole) {
+            $admin->roles()->syncWithoutDetaching([$adminRole->id]);
+        }
 
         // Crear algunos usuarios de equipo
         $team = [
@@ -94,54 +98,42 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Roberto Sánchez', 'email' => 'roberto@demo.com', 'company' => 'Sánchez & Co'],
         ];
 
+        $agentRole = \App\Modules\ACL\Domain\Models\Role::where('slug', 'agent')->first();
         foreach ($team as $index => $member) {
-            User::create([
+            $user = User::firstOrCreate([
+                'email' => $member['email']
+            ], [
                 'company_id'   => $company->id,
                 'name'         => $member['name'],
                 'company_name' => $member['company'],
-                'email'        => $member['email'],
                 'password'     => Hash::make('password'),
                 'avatar_url'   => $downloadAvatar($index + 1),
             ]);
+
+            if ($agentRole) {
+                $user->roles()->syncWithoutDetaching([$agentRole->id]);
+            }
         }
 
         // 4. Amenities
         $amenities = ['Piscina', 'Gimnasio', 'Seguridad 24/7', 'Área de Parrillas', 'Elevador'];
         $amenityModels = [];
         foreach ($amenities as $name) {
-            $amenityModels[] = Amenity::create(['name' => $name]);
+            $amenityModels[] = Amenity::firstOrCreate(['name' => $name]);
         }
 
         // 5. Pipeline Stages
         $stages = ['Captación', 'Contactado', 'Visita Programada', 'Negociación', 'Cerrado'];
         foreach ($stages as $index => $name) {
-            PipelineStage::create([
+            PipelineStage::firstOrCreate([
                 'company_id' => $company->id,
                 'name' => $name,
+            ], [
                 'order' => $index + 1
             ]);
         }
 
-        // 6. Properties
-        for ($i = 1; $i <= 5; $i++) {
-            $property = Property::create([
-                'company_id' => $company->id,
-                'user_id' => $admin->id,
-                'ubigeo_id' => '150122',
-                'title' => "Departamento de Lujo en Miraflores #$i",
-                'description' => 'Increíble vista al mar y acabados de lujo.',
-                'type' => 'apartment',
-                'operation' => 'sale',
-                'price' => 250000 + ($i * 10000),
-                'currency' => 'USD',
-                'area_total' => 120,
-                'bedrooms' => 3,
-                'bathrooms' => 2,
-                'address' => "Av. Larco $i",
-                'status' => 'published',
-            ]);
-
-            $property->amenities()->attach([$amenityModels[0]->id, $amenityModels[2]->id]);
-        }
+        $this->call(CategorySeeder::class);
+        $this->call(PropertyDemoSeeder::class);
     }
 }

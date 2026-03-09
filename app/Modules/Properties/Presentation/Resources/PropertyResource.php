@@ -24,16 +24,32 @@ class PropertyResource extends BaseResource
             'address' => $this->address,
             'status' => $this->status,
             'is_featured' => $this->is_featured,
+            'deleted_at' => $this->deleted_at ? $this->deleted_at->toISOString() : null,
             'agent' => $this->whenLoaded('agent', fn() => [
+                'id' => $this->agent->id,
                 'name' => $this->agent->name,
                 'email' => $this->agent->email,
+                'property_limit' => $this->agent->property_limit,
             ]),
             'ubigeo' => $this->whenLoaded('ubigeo', fn() => [
                 'district' => $this->ubigeo->district,
                 'province' => $this->ubigeo->province,
             ]),
             'amenities' => $this->whenLoaded('amenities', fn() => $this->amenities->pluck('name')),
-            'created_at' => $this->transformDate($this->created_at),
+            'category' => $this->whenLoaded('category', fn() => [
+                'id' => $this->category->id,
+                'name' => $this->category->name,
+            ]),
+            'images' => $this->getMedia('gallery')->map(fn($media) => [
+                'id' => $media->id,
+                'url' => $media->getFullUrl(),
+                'thumb' => $media->getFullUrl('thumb'),
+            ]),
+            'views_count' => (int) $this->views_count,
+            'main_image' => $this->getFirstMediaUrl('gallery', 'thumb') ?: '/images/placeholder-property.jpg',
+            'created_at' => $this->created_at->toISOString(),
+            'created_at_human' => $this->created_at->diffForHumans(),
+            'created_at_formatted' => $this->created_at->format('d/m/Y'),
         ];
     }
 }

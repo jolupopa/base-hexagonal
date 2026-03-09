@@ -19,6 +19,12 @@ class ProfileResource extends BaseResource
                 : null,
             'initials'            => $this->getInitials(),
             'two_factor_enabled'  => ! is_null($this->two_factor_secret),
+            'created_at' => $this->created_at->toISOString(),
+            'created_at_human' => $this->created_at->diffForHumans(),
+            'created_at_formatted' => $this->created_at->format('d/m/Y'),
+            'updated_at' => $this->updated_at->toISOString(),
+            'updated_at_human' => $this->updated_at->diffForHumans(),
+            'updated_at_formatted' => $this->updated_at->format('d/m/Y'),
         ];
     }
 }

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Head, useForm, router } from '@inertiajs/react';
-import AdminLayout from '@/Layouts/AdminLayout';
+import ClientLayout from '@/Layouts/ClientLayout';
 import userProfileInformation from '@/routes/user-profile-information';
 import userPassword from '@/routes/user-password';
 import twoFactor from '@/routes/two-factor';
@@ -139,7 +139,7 @@ export default function Profile({ user: userWrapper }: { user: { data: ProfileUs
     };
 
     return (
-        <AdminLayout>
+        <ClientLayout>
             <Head title="Mi Perfil — EstateManager" />
 
             <div className="max-w-3xl mx-auto space-y-8">
@@ -415,7 +415,7 @@ export default function Profile({ user: userWrapper }: { user: { data: ProfileUs
                     </div>
                 )}
             </div>
-        </AdminLayout>
+        </ClientLayout>
     );
 }
 

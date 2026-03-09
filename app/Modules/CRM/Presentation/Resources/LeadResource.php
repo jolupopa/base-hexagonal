@@ -18,7 +18,9 @@ class LeadResource extends BaseResource
             'notes' => $this->notes,
             'stage_id' => $this->pipeline_stage_id,
             'metadata' => $this->metadata,
-            'created_at' => $this->transformDate($this->created_at),
+            'created_at' => $this->created_at->toISOString(),
+            'created_at_human' => $this->created_at->diffForHumans(),
+            'created_at_formatted' => $this->created_at->format('d/m/Y'),
         ];
     }
 }

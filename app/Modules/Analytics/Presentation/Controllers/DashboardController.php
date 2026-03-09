@@ -16,8 +16,8 @@ class DashboardController extends Controller
 
         return Inertia::render('Analytics::Dashboard', [
             'stats' => [
-                'total_properties' => Property::where('company_id', $companyId)->count(),
-                'total_leads' => Lead::where('company_id', $companyId)->count(),
+                'total_properties' => (int) Property::where('company_id', $companyId)->count(),
+                'total_leads' => (int) Lead::where('company_id', $companyId)->count(),
                 'avg_lead_score' => (int) Lead::where('company_id', $companyId)->avg('score'),
                 'recent_properties' => Property::where('company_id', $companyId)->latest()->limit(5)->get(),
             ]

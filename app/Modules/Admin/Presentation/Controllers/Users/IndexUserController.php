@@ -37,7 +37,7 @@ class IndexUserController
         return Inertia::render('Admin::Users/Index', [
             'users' => UserResource::collection($query->paginate()->withQueryString()),
             'filters' => $request->only(['search', 'role']),
-            'availableRoles' => RoleResource::collection(\App\Modules\ACL\Domain\Models\Role::all(['id', 'name', 'slug']))
+            'availableRoles' => RoleResource::collection(\App\Modules\ACL\Domain\Models\Role::all(['id', 'name', 'slug']))->resolve()
         ]);
     }
 }

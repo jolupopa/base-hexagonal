@@ -4,9 +4,12 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Inertia\Testing\AssertableInertia as Assert;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class WelcomeTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Test that the welcome page is rendered via Inertia.
      */

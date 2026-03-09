@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../../../wayfinder'
 /**
 * @see \App\Modules\Properties\Presentation\Controllers\ListPropertiesController::__invoke
- * @see app/Modules/Properties/Presentation/Controllers/ListPropertiesController.php:13
+ * @see app/Modules/Properties/Presentation/Controllers/ListPropertiesController.php:17
  * @route '/propiedades'
  */
 const ListPropertiesController = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ ListPropertiesController.definition = {
 
 /**
 * @see \App\Modules\Properties\Presentation\Controllers\ListPropertiesController::__invoke
- * @see app/Modules/Properties/Presentation/Controllers/ListPropertiesController.php:13
+ * @see app/Modules/Properties/Presentation/Controllers/ListPropertiesController.php:17
  * @route '/propiedades'
  */
 ListPropertiesController.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ ListPropertiesController.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Modules\Properties\Presentation\Controllers\ListPropertiesController::__invoke
- * @see app/Modules/Properties/Presentation/Controllers/ListPropertiesController.php:13
+ * @see app/Modules/Properties/Presentation/Controllers/ListPropertiesController.php:17
  * @route '/propiedades'
  */
 ListPropertiesController.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -34,7 +34,7 @@ ListPropertiesController.get = (options?: RouteQueryOptions): RouteDefinition<'g
 })
 /**
 * @see \App\Modules\Properties\Presentation\Controllers\ListPropertiesController::__invoke
- * @see app/Modules/Properties/Presentation/Controllers/ListPropertiesController.php:13
+ * @see app/Modules/Properties/Presentation/Controllers/ListPropertiesController.php:17
  * @route '/propiedades'
  */
 ListPropertiesController.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -44,7 +44,7 @@ ListPropertiesController.head = (options?: RouteQueryOptions): RouteDefinition<'
 
     /**
 * @see \App\Modules\Properties\Presentation\Controllers\ListPropertiesController::__invoke
- * @see app/Modules/Properties/Presentation/Controllers/ListPropertiesController.php:13
+ * @see app/Modules/Properties/Presentation/Controllers/ListPropertiesController.php:17
  * @route '/propiedades'
  */
     const ListPropertiesControllerForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -54,7 +54,7 @@ ListPropertiesController.head = (options?: RouteQueryOptions): RouteDefinition<'
 
             /**
 * @see \App\Modules\Properties\Presentation\Controllers\ListPropertiesController::__invoke
- * @see app/Modules/Properties/Presentation/Controllers/ListPropertiesController.php:13
+ * @see app/Modules/Properties/Presentation/Controllers/ListPropertiesController.php:17
  * @route '/propiedades'
  */
         ListPropertiesControllerForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -63,7 +63,7 @@ ListPropertiesController.head = (options?: RouteQueryOptions): RouteDefinition<'
         })
             /**
 * @see \App\Modules\Properties\Presentation\Controllers\ListPropertiesController::__invoke
- * @see app/Modules/Properties/Presentation/Controllers/ListPropertiesController.php:13
+ * @see app/Modules/Properties/Presentation/Controllers/ListPropertiesController.php:17
  * @route '/propiedades'
  */
         ListPropertiesControllerForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

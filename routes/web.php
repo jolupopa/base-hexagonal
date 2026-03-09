@@ -16,9 +16,14 @@ Route::get('/two-factor-challenge', \App\Modules\Auth\Presentation\Controllers\T
     ->middleware(['web'])
     ->name('two-factor.login');
 
-// ── Public ───────────────────────────────────────────────────────────────────
 Route::get('/', \App\Modules\Public\Presentation\Controllers\HomeController::class)
     ->name('home');
+
+Route::get('/propiedades-publico', \App\Modules\Public\Presentation\Controllers\PublicPropertyController::class)
+    ->name('public.properties.index');
+
+Route::get('/propiedad/{property}', \App\Modules\Properties\Presentation\Controllers\ShowPropertyController::class)
+    ->name('public.properties.show');
 
 Route::get('/test-blade', function () {
     return 'Blade is working';
@@ -32,13 +37,36 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         ->middleware('permission:dashboard.view')
         ->name('dashboard');
 
+    // Propiedades
     Route::get('/propiedades', \App\Modules\Properties\Presentation\Controllers\ListPropertiesController::class)
         ->middleware('permission:properties.manage')
         ->name('properties.index');
-
     Route::get('/propiedades/crear', \App\Modules\Properties\Presentation\Controllers\CreatePropertyController::class)
         ->middleware('permission:properties.manage')
         ->name('properties.create');
+    Route::post('/propiedades', \App\Modules\Properties\Presentation\Controllers\StorePropertyController::class)
+        ->middleware('permission:properties.manage')
+        ->name('properties.store');
+    Route::get('/propiedades/{property}', \App\Modules\Properties\Presentation\Controllers\ShowPropertyController::class)
+        ->name('properties.show');
+    Route::get('/propiedades/{property}/editar', \App\Modules\Properties\Presentation\Controllers\EditPropertyController::class)
+        ->middleware('permission:properties.manage')
+        ->name('properties.edit');
+    Route::put('/propiedades/{property}', \App\Modules\Properties\Presentation\Controllers\UpdatePropertyController::class)
+        ->middleware('permission:properties.manage')
+        ->name('properties.update');
+    Route::delete('/propiedades/{property}', \App\Modules\Properties\Presentation\Controllers\DeletePropertyController::class)
+        ->middleware('permission:properties.manage')
+        ->name('properties.destroy');
+    Route::delete('/propiedades/{property}/force', \App\Modules\Properties\Presentation\Controllers\ForceDeletePropertyController::class)
+        ->name('properties.force-delete')
+        ->middleware('role:admin');
+
+    Route::post('/propiedades/consulta', \App\Modules\Properties\Presentation\Controllers\StorePropertyInquiryController::class)
+        ->name('properties.inquiry.store');
+
+    Route::get('/api/calendar/events', \App\Modules\Analytics\Presentation\Controllers\DashboardCalendarController::class)
+        ->name('api.calendar.events');
 
     Route::get('/crm/pipeline', \App\Modules\CRM\Presentation\Controllers\PipelineController::class)
         ->middleware('permission:properties.manage')
@@ -56,8 +84,14 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/profile/avatar', \App\Modules\Profile\Presentation\Controllers\UpdateAvatarController::class)
         ->name('profile.avatar');
 
-    // ── Admin / Usuarios (Solo Admin y Empresa) ─────────────────────────────
-    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'permission:users.manage'], function () {
+    // Admin Specific
+    Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/dashboard', \App\Modules\Analytics\Presentation\Controllers\AdminDashboardController::class)
+            ->name('dashboard');
+
+        Route::post('/users/{user}/quota', \App\Modules\Admin\Presentation\Controllers\Users\UpdateUserQuotaController::class)->name('users.update-quota');
+        
+        // Users & ACL
         Route::get('/usuarios', \App\Modules\Admin\Presentation\Controllers\Users\IndexUserController::class)
             ->name('users.index');
         Route::get('/usuarios/crear', function() {
@@ -77,6 +111,14 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
             ->name('users.update');
         Route::delete('/usuarios/{user}', \App\Modules\Admin\Presentation\Controllers\Users\DeleteUserController::class)
             ->name('users.destroy');
+
+        // Properties Management
+        Route::get('/gestion-propiedades', \App\Modules\Admin\Presentation\Controllers\Properties\AdminPropertyIndexController::class)
+            ->name('properties.management.index');
+        Route::get('/gestion-propiedades/usuario/{user}', \App\Modules\Admin\Presentation\Controllers\Properties\AdminUserPropertiesController::class)
+            ->name('properties.management.user-properties');
+        Route::delete('/gestion-propiedades/{property}/force', \App\Modules\Admin\Presentation\Controllers\Properties\AdminPropertyForceDeleteController::class)
+            ->name('properties.management.force-delete');
 
         // ── Gestión ACL (Roles y Permisos) ──────────────────────────────────
         Route::get('/acl', function() {

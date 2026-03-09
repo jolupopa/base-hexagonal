@@ -1,6 +1,7 @@
 import React from 'react';
 import { Head, Link } from '@inertiajs/react';
-import AdminLayout from '@/Layouts/AdminLayout';
+import ClientLayout from '@/Layouts/ClientLayout';
+import Calendar from '../Components/Calendar';
 
 interface Stats {
     total_properties: number;
@@ -15,7 +16,7 @@ interface Props {
 
 export default function Dashboard({ stats }: Props) {
     return (
-        <AdminLayout>
+        <ClientLayout>
             <Head title="Panel de Control — EstateManager" />
 
             <div className="space-y-8">
@@ -84,27 +85,24 @@ export default function Dashboard({ stats }: Props) {
                 </div>
 
                 {/* Bottom Row */}
-                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                    {/* Recent Properties */}
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                    {/* Recent Properties (1/3) */}
                     <div className="rounded-2xl border border-[#333333] bg-[#242424] p-7">
                         <h3 className="text-base font-bold text-white uppercase tracking-widest mb-6">
                             Recent Properties
                         </h3>
+                        {/* ... existing properties mapping ... */}
                         <div className="space-y-3">
                             {stats.recent_properties.length > 0 ? (
                                 stats.recent_properties.map(p => (
                                     <div key={p.id} className="flex items-center gap-4 rounded-xl p-2.5 hover:bg-white/5 transition-colors">
-                                        <div className="h-12 w-16 flex-shrink-0 rounded-lg bg-[#1a1a1a] border border-[#333333] flex items-center justify-center">
-                                            <svg className="h-5 w-5 text-[#555555]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" />
-                                            </svg>
+                                        {/* Simplified Property Item */}
+                                        <div className="h-10 w-12 flex-shrink-0 rounded-lg bg-[#1a1a1a] flex items-center justify-center">
+                                            <svg className="h-4 w-4 text-[#555555]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" /></svg>
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <p className="text-sm font-bold text-white truncate">{p.title}</p>
-                                            <p className="text-xs text-[#A0A0A0] truncate">{p.address}</p>
-                                        </div>
-                                        <div className="text-right">
-                                            <p className="text-sm font-extrabold text-[#FACC15]">${p.price}</p>
+                                            <p className="text-xs font-bold text-white truncate">{p.title}</p>
+                                            <p className="text-[10px] text-[#A0A0A0] truncate">{p.address}</p>
                                         </div>
                                     </div>
                                 ))
@@ -114,23 +112,12 @@ export default function Dashboard({ stats }: Props) {
                         </div>
                     </div>
 
-                    {/* AI CTA Card */}
-                    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#FACC15]/30 bg-[#FACC15]/5 p-8 text-center">
-                        <div className="h-16 w-16 rounded-2xl bg-[#FACC15]/10 flex items-center justify-center text-[#FACC15] mb-5">
-                            <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                        </div>
-                        <h3 className="text-lg font-bold text-white">Activate AI Scoring</h3>
-                        <p className="mt-2 text-sm text-[#A0A0A0] max-w-xs mb-6">
-                            Use Google Gemini to automatically qualify your leads with high-net-worth precision.
-                        </p>
-                        <button className="rounded-full bg-[#FACC15] px-7 py-3 text-sm font-bold text-[#121212] shadow-lg shadow-[#FACC15]/20 transition-all hover:brightness-110 active:scale-[0.98]">
-                            Configure AI Engine
-                        </button>
+                    {/* Calendar (2/3) */}
+                    <div className="lg:col-span-2">
+                        <Calendar />
                     </div>
                 </div>
             </div>
-        </AdminLayout>
+        </ClientLayout>
     );
 }

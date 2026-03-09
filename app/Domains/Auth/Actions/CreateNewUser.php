@@ -37,12 +37,19 @@ class CreateNewUser implements CreatesNewUsers
             'name' => $input['company_name'] ?? config('app.name', 'My Agency'),
         ]);
 
-        return User::create([
+        $user = User::create([
             'company_id'   => $company->id,
             'name'         => $input['name'],
             'company_name' => $input['company_name'] ?? null,  // Perfil del usuario
             'email'        => $input['email'],
             'password'     => Hash::make($input['password']),
         ]);
+
+        $agentRole = \App\Modules\ACL\Domain\Models\Role::where('slug', 'agent')->first();
+        if ($agentRole) {
+            $user->roles()->attach($agentRole->id);
+        }
+
+        return $user;
     }
 }

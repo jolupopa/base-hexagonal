@@ -1,225 +1,170 @@
 import React from 'react';
 import { Head, Link } from '@inertiajs/react';
 import FrontLayout from '@/Layouts/FrontLayout';
+import LandingSearchForm from '../Components/LandingSearchForm';
+import PublicPropertyCard from '../Components/PublicPropertyCard';
 
-const features = [
-    {
-        name: 'Multitenancy Real',
-        desc: 'Gestiona múltiples agencias con total aislamiento de datos y control granular de permisos.',
-        icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
-    },
-    {
-        name: 'IA Integrada',
-        desc: 'Calificación automática de prospectos con modelos de lenguaje avanzados. Cierra más rápido.',
-        icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
-    },
-    {
-        name: 'Pipeline Premium',
-        desc: 'Gestión visual de deals con métricas en tiempo real. 500+ Premium Assets bajo control.',
-        icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
-    },
-];
+interface Props {
+    featured: {
+        data: any[];
+    };
+    categories: any[];
+}
 
-const stats = [
-    { value: '500+', label: 'Premium Assets' },
-    { value: '98%', label: 'Client Satisfaction' },
-    { value: '3x', label: 'Sales Velocity' },
-];
-
-export default function Welcome() {
+export default function Welcome({ featured = { data: [] }, categories = [] }: Props) {
     return (
         <FrontLayout>
-            <Head title="Elevate Your Real Estate Performance — EstateManager" />
+            <Head title="Find Your Golden Address | EstateManager Luxury Real Estate" />
 
-            <div className="relative isolate overflow-hidden bg-[#121212]">
+            <div className="bg-[#121212]">
+                {/* ── Hero Section ── */}
+                <div className="relative h-[85vh] min-h-[600px] w-full overflow-hidden">
+                    {/* Background Hero Image with overlay */}
+                    <div className="absolute inset-0 z-0">
+                        <img
+                            src="/images/hero/qatar-skyline.png"
+                            className="h-full w-full object-cover"
+                            alt="Luxury Qatar Skyline"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[#121212]" />
+                    </div>
 
-                {/* Background glow effects */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute top-0 right-1/4 h-[600px] w-[600px] rounded-full bg-[#FACC15]/5 blur-3xl" />
-                    <div className="absolute bottom-0 left-1/4 h-[400px] w-[400px] rounded-full bg-[#FACC15]/3 blur-3xl" />
-                </div>
-
-                {/* ── Hero ── */}
-                <div className="mx-auto max-w-7xl px-6 pb-24 pt-16 sm:pb-40 lg:flex lg:px-8 lg:pt-40 relative">
-                    <div className="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
-                        {/* Badge */}
-                        <div className="mt-24 sm:mt-32 lg:mt-16">
-                            <a href="#" className="inline-flex items-center gap-3">
-                                <span className="rounded-full bg-[#FACC15]/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#FACC15] ring-1 ring-inset ring-[#FACC15]/20">
-                                    Novedad v2.0
-                                </span>
-                                <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[#A0A0A0] transition-colors hover:text-[#FACC15]">
-                                    <span>Discover the new features</span>
-                                    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
-                                    </svg>
-                                </span>
-                            </a>
-                        </div>
-
-                        {/* Headline */}
-                        <h1 className="mt-10 text-4xl font-extrabold tracking-tight text-white sm:text-6xl leading-tight">
-                            Elevate Your Real Estate Performance with{' '}
-                            <span className="text-[#FACC15]">AI-Powered Precision</span>
+                    {/* Content */}
+                    <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
+                        <span className="mb-4 text-xs font-black uppercase tracking-[0.4em] text-[#FACC15]">Premium Real Estate</span>
+                        <h1 className="max-w-4xl text-5xl font-black tracking-tight text-white md:text-7xl">
+                            Find Your <span className="italic text-[#FACC15]">Golden Address</span> <br /> In Qatar
                         </h1>
-
-                        <p className="mt-6 text-lg leading-8 text-[#A0A0A0]">
-                            The bespoke platform for high-net-worth agencies. Automate your sales pipeline, qualify leads with AI, and manage your curated property portfolio — all in one exclusive workspace.
+                        <p className="mt-6 max-w-2xl text-lg text-[#D1D1D1]">
+                            Experience the pinnacle of luxury living. Discover exclusive penthouses, waterfront villas, and elite investment opportunities in the heart of Doha.
                         </p>
 
-                        {/* CTAs */}
-                        <div className="mt-10 flex items-center gap-x-6">
+                        {/* Search Bar Component */}
+                        <div className="mt-12 w-full max-w-4xl">
+                            <LandingSearchForm categories={categories} />
+                        </div>
+                    </div>
+                </div>
+
+                {/* ── Featured Projects Section ── */}
+                <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
+                    <div className="flex items-end justify-between mb-12">
+                        <div>
+                            <span className="text-xs font-black uppercase tracking-widest text-[#FACC15]">Curated Selection</span>
+                            <h2 className="mt-2 text-4xl font-black tracking-tight text-white">Featured Luxury Estates</h2>
+                        </div>
+                        <div className="flex gap-2">
+                            <button className="flex h-12 w-12 items-center justify-center rounded-full border border-[#333333] hover:border-[#FACC15] transition-all text-[#A0A0A0] hover:text-[#FACC15]">
+                                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+                            </button>
+                            <button className="flex h-12 w-12 items-center justify-center rounded-full border border-[#333333] hover:border-[#FACC15] transition-all text-[#A0A0A0] hover:text-[#FACC15]">
+                                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                        {featured.data?.map((property) => (
+                            <PublicPropertyCard key={property.id} property={property} />
+                        ))}
+                    </div>
+                </div>
+
+                {/* ── Excellence Section ── */}
+                <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <div className="relative rounded-3xl overflow-hidden aspect-square border border-[#333333]">
+                            <img
+                                src="/images/placeholder-property.jpg"
+                                className="h-full w-full object-cover grayscale-[0.2]"
+                                alt="Modern Office"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                        </div>
+                        <div>
+                            <span className="text-xs font-black uppercase tracking-widest text-[#FACC15]">Our Legacy</span>
+                            <h2 className="mt-2 text-5xl font-black tracking-tight text-white leading-tight">Excellence in Every Transaction</h2>
+                            <p className="mt-6 text-lg text-[#A0A0A0] leading-relaxed">
+                                EstateManager is more than a real estate agency, we are your strategic partner in the Middle Eastern luxury market. For over a decade, we've bridged the gap between extraordinary architecture and discerning buyers.
+                            </p>
+
+                            <div className="grid grid-cols-2 gap-8 mt-12 mb-12">
+                                <div>
+                                    <p className="text-4xl font-black text-[#FACC15]">500+</p>
+                                    <p className="text-xs uppercase tracking-widest text-[#555555] font-bold mt-1">Premium Assets</p>
+                                </div>
+                                <div>
+                                    <p className="text-4xl font-black text-[#FACC15]">12+</p>
+                                    <p className="text-xs uppercase tracking-widest text-[#555555] font-bold mt-1">Years Exp.</p>
+                                </div>
+                                <div>
+                                    <p className="text-4xl font-black text-[#FACC15]">2.4B</p>
+                                    <p className="text-xs uppercase tracking-widest text-[#555555] font-bold mt-1">Sales Volume</p>
+                                </div>
+                                <div>
+                                    <p className="text-4xl font-black text-[#FACC15]">100%</p>
+                                    <p className="text-xs uppercase tracking-widest text-[#555555] font-bold mt-1">Client Trust</p>
+                                </div>
+                            </div>
+
                             <Link
-                                href="/register"
-                                className="rounded-full bg-[#FACC15] px-8 py-4 text-sm font-bold text-[#121212] shadow-2xl shadow-[#FACC15]/20 transition-all hover:brightness-110 hover:scale-[1.02] hover:shadow-[#FACC15]/30 active:scale-[0.98]"
+                                href="/sobre-nosotros"
+                                className="inline-flex items-center justify-center rounded-full bg-[#FACC15] px-8 py-4 text-sm font-black text-[#121212] transition-all hover:brightness-110 active:scale-95"
                             >
-                                Boost Your Sales Velocity
-                            </Link>
-                            <Link
-                                href="/precios"
-                                className="text-sm font-bold leading-6 text-[#A0A0A0] hover:text-[#FACC15] transition-colors"
-                            >
-                                Ver planes <span aria-hidden="true">→</span>
+                                Discover Our Story
                             </Link>
                         </div>
+                    </div>
+                </div>
 
-                        {/* Stats */}
-                        <div className="mt-14 flex items-center gap-10 border-t border-[#333333] pt-8">
-                            {stats.map((stat) => (
-                                <div key={stat.label}>
-                                    <p className="text-3xl font-extrabold text-[#FACC15]">{stat.value}</p>
-                                    <p className="text-xs text-[#A0A0A0] mt-0.5 uppercase tracking-widest">{stat.label}</p>
+                {/* ── Services Section ── */}
+                <div className="bg-[#1a1a1a] py-24 sm:py-32">
+                    <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center mb-16">
+                        <span className="text-xs font-black uppercase tracking-[0.4em] text-[#FACC15]">Holistic Excellence</span>
+                        <h2 className="mt-3 text-4xl font-black text-white">Our Bespoke Services</h2>
+                        <p className="mt-4 text-[#A0A0A0]">Tailored solutions for High-net-worth investors and luxury homeowners.</p>
+                    </div>
+                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {[
+                                { title: 'Residential Sales', desc: 'Exclusive access to off-market listings and premium waterfront properties across Doha.', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
+                                { title: 'Investment Advisory', desc: 'Strategic market analysis to maximize ROI on luxury real estate portfolios in Lusail and beyond.', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
+                                { title: 'Asset Management', desc: 'End-to-end management services ensuring your property maintains its premium value and status.', icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+                                { title: 'Valuation Services', desc: 'Accurate, market-driven property appraisals conducted by certified industry experts.', icon: 'M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z' }
+                            ].map((service) => (
+                                <div key={service.title} className="bg-[#121212] p-8 rounded-2xl border border-[#333333] hover:border-[#FACC15]/30 transition-all group">
+                                    <div className="h-12 w-12 rounded-xl bg-[#FACC15]/10 flex items-center justify-center mb-6 group-hover:bg-[#FACC15] transition-all">
+                                        <svg className="h-6 w-6 text-[#FACC15] group-hover:text-black transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={service.icon} />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-lg font-black text-white mb-3">{service.title}</h3>
+                                    <p className="text-sm text-[#A0A0A0] leading-relaxed">{service.desc}</p>
                                 </div>
                             ))}
                         </div>
                     </div>
+                </div>
 
-                    {/* Dashboard Mockup */}
-                    <div className="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32">
-                        <div className="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
-                            <div className="rounded-2xl bg-[#1a1a1a] p-3 ring-1 ring-inset ring-[#333333] lg:-m-4 lg:rounded-3xl lg:p-4 shadow-2xl shadow-black/60 overflow-hidden">
-                                {/* Mock dashboard UI */}
-                                <div className="h-[400px] w-[580px] bg-[#121212] rounded-xl p-5 flex flex-col gap-4 overflow-hidden">
-                                    {/* Top bar */}
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex gap-2">
-                                            <div className="h-3 w-3 rounded-full bg-[#333333]" />
-                                            <div className="h-3 w-3 rounded-full bg-[#333333]" />
-                                            <div className="h-3 w-3 rounded-full bg-[#333333]" />
-                                        </div>
-                                        <div className="h-4 w-32 rounded-full bg-[#242424]" />
-                                        <div className="h-6 w-6 rounded-full bg-[#FACC15]/20" />
-                                    </div>
-                                    {/* Stat cards row */}
-                                    <div className="grid grid-cols-3 gap-3">
-                                        {[
-                                            { label: 'Pipeline', value: '$2.4M', up: true },
-                                            { label: 'Leads', value: '147', up: true },
-                                            { label: 'Cierre', value: '34%', up: false },
-                                        ].map((card) => (
-                                            <div key={card.label} className="rounded-xl bg-[#242424] border border-[#333333] p-3">
-                                                <p className="text-[10px] text-[#A0A0A0] uppercase tracking-widest">{card.label}</p>
-                                                <p className="text-lg font-extrabold text-white mt-1">{card.value}</p>
-                                                <p className={`text-[10px] mt-0.5 font-semibold ${card.up ? 'text-[#10B981]' : 'text-[#FACC15]'}`}>
-                                                    {card.up ? '↑ +12%' : '→ stable'}
-                                                </p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    {/* Chart area */}
-                                    <div className="flex-1 rounded-xl bg-[#242424] border border-[#333333] p-4 flex flex-col justify-between">
-                                        <div className="flex items-center justify-between mb-3">
-                                            <p className="text-xs font-bold text-white uppercase tracking-widest">Sales Velocity</p>
-                                            <span className="rounded-full bg-[#FACC15]/10 px-2 py-0.5 text-[10px] font-bold text-[#FACC15]">Live</span>
-                                        </div>
-                                        {/* Fake bars */}
-                                        <div className="flex items-end justify-between gap-2 h-24">
-                                            {[40, 65, 45, 80, 55, 90, 70, 85, 60, 95, 75, 100].map((h, i) => (
-                                                <div
-                                                    key={i}
-                                                    className="flex-1 rounded-sm transition-all"
-                                                    style={{
-                                                        height: `${h}%`,
-                                                        backgroundColor: i === 11 ? '#FACC15' : '#333333',
-                                                    }}
-                                                />
-                                            ))}
-                                        </div>
-                                    </div>
-                                    {/* Table rows */}
-                                    <div className="space-y-2">
-                                        {['Penthouse 12A — Lima Centro', 'Villa Premium — La Molina'].map((item) => (
-                                            <div key={item} className="flex items-center justify-between rounded-lg bg-[#1a1a1a] border border-[#333333] px-3 py-2">
-                                                <div className="flex items-center gap-2">
-                                                    <div className="h-5 w-5 rounded bg-[#FACC15]/10 flex items-center justify-center">
-                                                        <div className="h-2 w-2 rounded-sm bg-[#FACC15]" />
-                                                    </div>
-                                                    <p className="text-[11px] text-[#A0A0A0]">{item}</p>
-                                                </div>
-                                                <span className="rounded-full bg-[#10B981]/10 px-2 py-0.5 text-[10px] font-bold text-[#10B981]">
-                                                    Activo
-                                                </span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
+                {/* ── Testimonial Section ── */}
+                <div className="py-24 sm:py-32 bg-[#121212] overflow-hidden relative">
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15rem] font-black text-[#FACC15]/5 pointer-events-none select-none">"</div>
+                    <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center relative z-10">
+                        <svg className="h-12 w-12 text-[#FACC15] mx-auto mb-8" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H16.017C14.9124 8 14.017 7.10457 14.017 6V3L14.017 1H17.017C18.1216 1 19.017 1.89543 19.017 3V5C20.1216 5 21.017 5.89543 21.017 7V15C21.017 17.2091 19.2261 19 17.017 19H14.017V21ZM5.017 21V19H2.017C0.912383 19 -0.0783511 17.2091 -0.0783511 15V7C-0.0783511 5.89543 0.817066 5 1.92165 5H4.92165V3C4.92165 1.89543 5.81707 1 6.92165 1H9.92165V3L9.92165 6C9.92165 7.10457 9.02622 8 7.92165 8H4.92165C4.36937 8 3.92165 8.44772 3.92165 9V15C3.92165 15.5523 4.36937 16 4.92165 16H7.92165C9.02622 16 9.92165 16.8954 9.92165 18V21H6.92165C5.81707 21 4.92165 20.1046 4.92165 19L5.017 21Z" /></svg>
+                        <blockquote className="text-3xl font-black text-white italic leading-tight">
+                            "The level of professionalism and attention to detail provided by EstateManager is unparalleled. They didn't just find me a house; they secured an architectural masterpiece that perfectly aligned with my vision."
+                        </blockquote>
+                        <div className="mt-10 flex flex-col items-center gap-4">
+                            <div className="h-16 w-16 rounded-full border-2 border-[#FACC15] overflow-hidden">
+                                <img src="/images/placeholder-property.jpg" className="h-full w-full object-cover" alt="Mohammed Al-Thani" />
+                            </div>
+                            <div>
+                                <p className="text-lg font-black text-white">Mohammed Al-Thani</p>
+                                <p className="text-xs uppercase tracking-widest text-[#FACC15] font-bold">CEO, Global Investments</p>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                {/* ── Features ── */}
-                <div className="mx-auto mt-16 max-w-7xl px-6 sm:mt-24 lg:px-8 pb-32 relative">
-                    <div className="mx-auto max-w-2xl text-center">
-                        <p className="text-xs font-bold uppercase tracking-widest text-[#FACC15]">
-                            Performance Suite
-                        </p>
-                        <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-                            Everything a high-net-worth agency needs
-                        </h2>
-                        <p className="mt-4 text-base text-[#A0A0A0]">
-                            A curated selection of tools designed for excellence and precision in real estate management.
-                        </p>
-                    </div>
-
-                    <div className="mx-auto mt-16 max-w-none">
-                        <dl className="grid max-w-xl grid-cols-1 gap-6 lg:max-w-none lg:grid-cols-3 mx-auto">
-                            {features.map((feature) => (
-                                <div
-                                    key={feature.name}
-                                    className="flex flex-col rounded-2xl border border-[#333333] bg-[#242424] p-8 transition-all duration-300 hover:border-[#FACC15]/30 hover:shadow-lg hover:shadow-[#FACC15]/5 group"
-                                >
-                                    <dt className="flex items-center gap-x-3 text-lg font-bold text-white">
-                                        <div className="h-9 w-9 rounded-xl bg-[#FACC15]/10 flex items-center justify-center group-hover:bg-[#FACC15]/20 transition-colors">
-                                            <svg className="h-5 w-5 text-[#FACC15]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={feature.icon} />
-                                            </svg>
-                                        </div>
-                                        {feature.name}
-                                    </dt>
-                                    <dd className="mt-4 flex flex-auto flex-col text-sm leading-7 text-[#A0A0A0]">
-                                        <p className="flex-auto">{feature.desc}</p>
-                                    </dd>
-                                </div>
-                            ))}
-                        </dl>
-                    </div>
-
-                    {/* Final CTA */}
-                    <div className="mt-24 text-center">
-                        <Link
-                            href="/register"
-                            className="inline-flex items-center gap-2 rounded-full bg-[#FACC15] px-10 py-4 text-sm font-bold text-[#121212] shadow-2xl shadow-[#FACC15]/20 transition-all hover:brightness-110 hover:scale-[1.02] active:scale-[0.98]"
-                        >
-                            Discover Our Story
-                            <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
-                            </svg>
-                        </Link>
-                        <p className="mt-4 text-sm text-[#A0A0A0]">Sin tarjeta de crédito requerida. Setup en 60 segundos.</p>
-                    </div>
-                </div>
-
             </div>
         </FrontLayout>
     );

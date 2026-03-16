@@ -16,7 +16,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
 
     return (
         <FrontLayout>
-            <Head title="Reset Your Access — EstateManager" />
+            <Head title="Reset Your Access — CrmSaas" />
 
             <div className="flex min-h-[calc(100vh-64px)] items-center justify-center p-4 bg-[#121212]">
                 {/* Background glow */}

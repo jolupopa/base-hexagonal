@@ -80,7 +80,7 @@ export default function PropertyShow({ property: { data: property }, related: { 
     return (
         <FrontLayout>
             <Head>
-                <title>{`${property.title} | EstateManager Luxury`}</title>
+                <title>{`${property.title} | CrmSaas Luxury`}</title>
                 <meta name="description" content={property.description?.substring(0, 160)} />
             </Head>
 

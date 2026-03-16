@@ -9,25 +9,32 @@ use Illuminate\Support\Facades\DB;
 class UpdatePropertyAction extends BaseAction
 {
     public function __construct(
-        protected Property $property,
-        protected array $data,
-        protected array $images = []
+        protected CreateOrUpdateListingAction $listingAction
     ) {}
 
-    public function execute(): Property
+    public function execute(Property $property, array $data): Property
     {
-        return DB::transaction(function () {
-            $this->property->update($this->data);
+        return DB::transaction(function () use ($property, $data) {
+            // 1. Actualizar propiedad
+            $property->update($data);
 
-            if (isset($this->data['amenities'])) {
-                $this->property->amenities()->sync($this->data['amenities']);
+            // 2. Actualizar Dirección
+            if (!empty($data['address'])) {
+                $property->address()->updateOrCreate(
+                    ['addressable_id' => $property->id, 'addressable_type' => Property::class],
+                    array_merge($data['address'], ['company_id' => $property->company_id])
+                );
             }
 
-            foreach ($this->images as $image) {
-                $this->property->addMedia($image)->toMediaCollection('gallery');
+            // 3. Sincronizar Amenidades
+            if (isset($data['amenities'])) {
+                $property->amenities()->sync($data['amenities']);
             }
 
-            return $this->property;
+            // 4. Gestionar Snapshot del Listing
+            $this->listingAction->execute($property, $data);
+
+            return $property->fresh(['address', 'amenities', 'listings']);
         });
     }
 }

@@ -4,7 +4,7 @@ import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFo
  * @see app/Modules/Properties/Presentation/Controllers/ShowPropertyController.php:13
  * @route '/propiedad/{property}'
  */
-const ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3 = (args: { property: string | number } | [property: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+const ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3 = (args: { property: string | { id: string } } | [property: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.url(args, options),
     method: 'get',
 })
@@ -19,11 +19,14 @@ ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.definition = {
  * @see app/Modules/Properties/Presentation/Controllers/ShowPropertyController.php:13
  * @route '/propiedad/{property}'
  */
-ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.url = (args: { property: string | number } | [property: string | number ] | string | number, options?: RouteQueryOptions) => {
+ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.url = (args: { property: string | { id: string } } | [property: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { property: args }
     }
 
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { property: args.id }
+        }
     
     if (Array.isArray(args)) {
         args = {
@@ -34,7 +37,9 @@ ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.url = (args: { property: 
     args = applyUrlDefaults(args)
 
     const parsedArgs = {
-                        property: args.property,
+                        property: typeof args.property === 'object'
+                ? args.property.id
+                : args.property,
                 }
 
     return ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.definition.url
@@ -47,7 +52,7 @@ ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.url = (args: { property: 
  * @see app/Modules/Properties/Presentation/Controllers/ShowPropertyController.php:13
  * @route '/propiedad/{property}'
  */
-ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.get = (args: { property: string | number } | [property: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.get = (args: { property: string | { id: string } } | [property: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.url(args, options),
     method: 'get',
 })
@@ -56,7 +61,7 @@ ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.get = (args: { property: 
  * @see app/Modules/Properties/Presentation/Controllers/ShowPropertyController.php:13
  * @route '/propiedad/{property}'
  */
-ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.head = (args: { property: string | number } | [property: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.head = (args: { property: string | { id: string } } | [property: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.url(args, options),
     method: 'head',
 })
@@ -66,7 +71,7 @@ ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.head = (args: { property:
  * @see app/Modules/Properties/Presentation/Controllers/ShowPropertyController.php:13
  * @route '/propiedad/{property}'
  */
-    const ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3Form = (args: { property: string | number } | [property: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    const ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3Form = (args: { property: string | { id: string } } | [property: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
         action: ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.url(args, options),
         method: 'get',
     })
@@ -76,7 +81,7 @@ ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.head = (args: { property:
  * @see app/Modules/Properties/Presentation/Controllers/ShowPropertyController.php:13
  * @route '/propiedad/{property}'
  */
-        ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3Form.get = (args: { property: string | number } | [property: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3Form.get = (args: { property: string | { id: string } } | [property: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.url(args, options),
             method: 'get',
         })
@@ -85,7 +90,7 @@ ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.head = (args: { property:
  * @see app/Modules/Properties/Presentation/Controllers/ShowPropertyController.php:13
  * @route '/propiedad/{property}'
  */
-        ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3Form.head = (args: { property: string | number } | [property: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3Form.head = (args: { property: string | { id: string } } | [property: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
@@ -101,7 +106,7 @@ ShowPropertyController8afc57730cd7fd7d198b6ea18f5307f3.head = (args: { property:
  * @see app/Modules/Properties/Presentation/Controllers/ShowPropertyController.php:13
  * @route '/propiedades/{property}'
  */
-const ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5 = (args: { property: string | number } | [property: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+const ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5 = (args: { property: string | { id: string } } | [property: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.url(args, options),
     method: 'get',
 })
@@ -116,11 +121,14 @@ ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.definition = {
  * @see app/Modules/Properties/Presentation/Controllers/ShowPropertyController.php:13
  * @route '/propiedades/{property}'
  */
-ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.url = (args: { property: string | number } | [property: string | number ] | string | number, options?: RouteQueryOptions) => {
+ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.url = (args: { property: string | { id: string } } | [property: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { property: args }
     }
 
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { property: args.id }
+        }
     
     if (Array.isArray(args)) {
         args = {
@@ -131,7 +139,9 @@ ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.url = (args: { property: 
     args = applyUrlDefaults(args)
 
     const parsedArgs = {
-                        property: args.property,
+                        property: typeof args.property === 'object'
+                ? args.property.id
+                : args.property,
                 }
 
     return ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.definition.url
@@ -144,7 +154,7 @@ ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.url = (args: { property: 
  * @see app/Modules/Properties/Presentation/Controllers/ShowPropertyController.php:13
  * @route '/propiedades/{property}'
  */
-ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.get = (args: { property: string | number } | [property: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.get = (args: { property: string | { id: string } } | [property: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.url(args, options),
     method: 'get',
 })
@@ -153,7 +163,7 @@ ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.get = (args: { property: 
  * @see app/Modules/Properties/Presentation/Controllers/ShowPropertyController.php:13
  * @route '/propiedades/{property}'
  */
-ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.head = (args: { property: string | number } | [property: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.head = (args: { property: string | { id: string } } | [property: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.url(args, options),
     method: 'head',
 })
@@ -163,7 +173,7 @@ ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.head = (args: { property:
  * @see app/Modules/Properties/Presentation/Controllers/ShowPropertyController.php:13
  * @route '/propiedades/{property}'
  */
-    const ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5Form = (args: { property: string | number } | [property: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    const ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5Form = (args: { property: string | { id: string } } | [property: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
         action: ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.url(args, options),
         method: 'get',
     })
@@ -173,7 +183,7 @@ ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.head = (args: { property:
  * @see app/Modules/Properties/Presentation/Controllers/ShowPropertyController.php:13
  * @route '/propiedades/{property}'
  */
-        ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5Form.get = (args: { property: string | number } | [property: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5Form.get = (args: { property: string | { id: string } } | [property: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.url(args, options),
             method: 'get',
         })
@@ -182,7 +192,7 @@ ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.head = (args: { property:
  * @see app/Modules/Properties/Presentation/Controllers/ShowPropertyController.php:13
  * @route '/propiedades/{property}'
  */
-        ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5Form.head = (args: { property: string | number } | [property: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5Form.head = (args: { property: string | { id: string } } | [property: string | { id: string } ] | string | { id: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: ShowPropertyController0f0fd6613739f7d5abe9babfe05c33d5.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',

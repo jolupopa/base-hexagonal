@@ -3,46 +3,56 @@
 namespace App\Modules\Projects\Domain\Models;
 
 use App\Core\BaseModel;
-use App\Modules\Company\Domain\Models\Company;
-use App\Modules\Properties\Domain\Models\Ubigeo;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Traits\HasCompany;
+use App\Modules\Properties\Domain\Models\Address;
+use App\Modules\Properties\Domain\Models\Listing;
+use App\Modules\Properties\Domain\Models\Amenity;
+use App\Modules\Properties\Domain\Models\Property;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Project extends BaseModel
+use App\Traits\HasModularFactory;
+
+class Project extends BaseModel implements HasMedia
 {
-    use SoftDeletes;
+    use HasCompany, InteractsWithMedia, HasFactory, HasModularFactory {
+        HasModularFactory::newFactory insteadof HasFactory;
+    }
 
     protected $fillable = [
         'company_id',
-        'ubigeo_id',
         'name',
         'description',
-        'address',
-        'latitude',
-        'longitude',
         'status',
         'metadata',
     ];
 
     protected $casts = [
         'metadata' => 'array',
-        'latitude' => 'decimal:7',
-        'longitude' => 'decimal:7',
     ];
 
-    public function company(): BelongsTo
+    public function properties(): HasMany
     {
-        return $this->belongsTo(Company::class);
+        return $this->hasMany(Property::class);
     }
 
-    public function ubigeo(): BelongsTo
+    public function address(): MorphOne
     {
-        return $this->belongsTo(Ubigeo::class, 'ubigeo_id');
+        return $this->morphOne(Address::class, 'addressable');
     }
 
-    public function units(): HasMany
+    public function listings(): MorphMany
     {
-        return $this->hasMany(Unit::class);
+        return $this->morphMany(Listing::class, 'listable');
+    }
+
+    public function amenities(): MorphToMany
+    {
+        return $this->morphToMany(Amenity::class, 'amenityable', 'amenityables');
     }
 }

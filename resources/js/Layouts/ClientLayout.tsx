@@ -78,7 +78,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#FACC15] to-[#EAB308] shadow-lg shadow-[#FACC15]/20">
                             <Building2 className="h-6 w-6 text-black" />
                         </div>
-                        <span className="text-xl font-bold tracking-tight text-white">Estate<span className="text-[#FACC15]">Manager</span></span>
+                        <span className="text-xl font-bold tracking-tight text-white">Crm<span className="text-[#FACC15]">Saas</span></span>
                     </Link>
                 </div>
 
@@ -132,7 +132,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FACC15]">
                         <Building2 className="h-5 w-5 text-black" />
                     </div>
-                    <span className="font-bold">Estate<span className="text-[#FACC15]">Manager</span></span>
+                    <span className="font-bold">Crm<span className="text-[#FACC15]">Saas</span></span>
                 </Link>
                 <button onClick={() => setIsMobileMenuOpen(true)}>
                     <Menu className="h-6 w-6 text-white" />

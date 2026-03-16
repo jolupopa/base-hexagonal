@@ -1,183 +1,154 @@
-import React, { useState } from 'react';
-import { Head, useForm } from '@inertiajs/react';
-import AdminLayout from '@/Layouts/AdminLayout';
-import propertyInquiryRoutes from '@/routes/properties/inquiry';
+import React from 'react';
+import { Head } from '@inertiajs/react';
+import ClientLayout from '@/Layouts/ClientLayout';
+import { Property } from '../Types';
+import PriceHistoryChart from '../Components/PriceHistoryChart';
+import { 
+    BedDouble, 
+    Bath, 
+    Square, 
+    Car, 
+    MapPin, 
+    Calendar,
+    Tag,
+    User,
+    CheckCircle2
+} from 'lucide-react';
 
 interface Props {
-    property: any;
+    property: {
+        data: Property;
+    };
 }
 
-export default function Show({ property }: Props) {
-    const [activeImage, setActiveImage] = useState(property.main_image);
-
-    const { data, setData, post, processing, reset, errors } = useForm({
-        property_id: property.id,
-        name: '',
-        email: '',
-        phone: '',
-        message: '',
-        visit_date: '',
-    });
-
-    const submitInquiry = (e: React.FormEvent) => {
-        e.preventDefault();
-        post(propertyInquiryRoutes.store.url(), {
-            onSuccess: () => reset(),
-        });
-    };
+const Show: React.FC<Props> = ({ property }) => {
+    const data = property.data;
 
     return (
-        <AdminLayout>
-            <Head title={`${property.title} — EstateManager`} />
+        <ClientLayout>
+            <Head title={`${data.title} - CrmSaas`} />
 
-            <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
-                {/* Left: Gallery & Info */}
-                <div className="lg:col-span-2 space-y-8">
-                    {/* Gallery */}
-                    <div className="space-y-4">
-                        <div className="aspect-[16/9] w-full overflow-hidden rounded-3xl border border-[#333333] bg-[#1a1a1a]">
-                            <img src={activeImage} className="h-full w-full object-cover" alt={property.title} />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-in fade-in duration-500">
+                {/* Header Section */}
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-[#242424] p-6 rounded-2xl border border-white/5 shadow-xl">
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+                                data.status === 'published' ? 'bg-green-500/10 text-green-500' : 'bg-[#FACC15]/10 text-[#FACC15]'
+                            }`}>
+                                {data.status}
+                            </span>
+                            <span className="px-3 py-1 rounded-full bg-white/5 text-white/60 text-xs font-bold uppercase tracking-wider">
+                                {data.operation}
+                            </span>
                         </div>
-                        <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-                            {property.images.map((img: any) => (
-                                <button
-                                    key={img.id}
-                                    onClick={() => setActiveImage(img.url)}
-                                    className={`h-24 w-40 flex-shrink-0 overflow-hidden rounded-xl border-2 transition-all ${activeImage === img.url ? 'border-[#FACC15]' : 'border-transparent opacity-60 hover:opacity-100'
-                                        }`}
-                                >
-                                    <img src={img.thumb} className="h-full w-full object-cover" />
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Property Header */}
-                    <div className="flex items-start justify-between">
-                        <div>
-                            <div className="flex gap-2">
-                                <span className="rounded-full bg-[#FACC15]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#FACC15]">
-                                    {property.type}
-                                </span>
-                                <span className="rounded-full bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
-                                    {property.category?.name}
-                                </span>
-                            </div>
-                            <h1 className="mt-4 text-4xl font-black text-white">{property.title}</h1>
-                            <p className="mt-2 text-[#A0A0A0] flex items-center gap-2">
-                                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                </svg>
-                                {property.address}
-                            </p>
-                        </div>
-                        <div className="text-right">
-                            <p className="text-sm font-bold uppercase tracking-widest text-[#A0A0A0]">List Price</p>
-                            <p className="mt-1 text-4xl font-black text-[#FACC15]">{property.price_formatted}</p>
+                        <h1 className="text-3xl font-bold text-white mb-2">{data.title}</h1>
+                        <div className="flex items-center text-white/50 text-sm gap-2">
+                            <MapPin className="w-4 h-4" />
+                            {data.address?.address}, {data.address?.ubigeo_id}
                         </div>
                     </div>
-
-                    {/* Stats Grid */}
-                    <div className="grid grid-cols-4 gap-6 rounded-3xl border border-[#333333] bg-[#1a1a1a] p-8">
-                        {[
-                            { label: 'Bedrooms', val: property.bedrooms, icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
-                            { label: 'Bathrooms', val: property.bathrooms, icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
-                            { label: 'Total Area', val: `${property.area_total} m²`, icon: 'M4 8V4m0 0h4M4 4l5 5' },
-                            { label: 'Built Area', val: `${property.area_built || '—'} m²`, icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10' },
-                        ].map((s, i) => (
-                            <div key={i} className="flex flex-col items-center text-center">
-                                <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-[#242424] text-[#FACC15]">
-                                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={s.icon} />
-                                    </svg>
-                                </div>
-                                <p className="text-xs font-bold text-white">{s.val}</p>
-                                <p className="text-[10px] text-[#A0A0A0] uppercase tracking-wider">{s.label}</p>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Description */}
-                    <div className="space-y-4">
-                        <h2 className="text-xl font-bold text-white">About this property</h2>
-                        <p className="text-[#A0A0A0] leading-relaxed whitespace-pre-line">{property.description}</p>
+                    <div className="text-right">
+                        <div className="text-sm text-white/50 mb-1 font-medium">Precio Actual</div>
+                        <div className="text-4xl font-black text-[#FACC15]">
+                            {data.currency} {data.price.toLocaleString()}
+                        </div>
                     </div>
                 </div>
 
-                {/* Right: Sidebar Form */}
-                <div className="space-y-8">
-                    {/* Inquiry Form */}
-                    <div className="sticky top-8 rounded-3xl border border-[#333333] bg-[#1a1a1a] p-8 shadow-2xl">
-                        <h3 className="text-xl font-bold text-white mb-6">Schedule a Visit</h3>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Left Column: Details */}
+                    <div className="lg:col-span-2 space-y-8">
+                        {/* Highlights Grid */}
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {[
+                                { icon: BedDouble, label: 'Dormitorios', value: data.bedrooms },
+                                { icon: Bath, label: 'Baños', value: data.bathrooms },
+                                { icon: Car, label: 'Cocheras', value: data.parking_spots },
+                                { icon: Square, label: 'Area Total', value: `${data.area_total} m²` },
+                            ].map((item, i) => (
+                                <div key={i} className="bg-[#1a1a1a] p-4 rounded-xl border border-white/5 flex flex-col items-center text-center">
+                                    <item.icon className="w-6 h-6 text-[#FACC15] mb-2" />
+                                    <span className="text-white font-bold">{item.value}</span>
+                                    <span className="text-white/40 text-xs">{item.label}</span>
+                                </div>
+                            ))}
+                        </div>
 
-                        <form onSubmit={submitInquiry} className="space-y-4">
-                            <div>
-                                <input
-                                    type="text"
-                                    placeholder="Full Name"
-                                    value={data.name}
-                                    onChange={e => setData('name', e.target.value)}
-                                    className="w-full rounded-xl border-[#333333] bg-[#242424] text-sm text-white focus:border-[#FACC15]"
-                                    required
-                                />
-                                {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
-                            </div>
-                            <div>
-                                <input
-                                    type="email"
-                                    placeholder="Email Address"
-                                    value={data.email}
-                                    onChange={e => setData('email', e.target.value)}
-                                    className="w-full rounded-xl border-[#333333] bg-[#242424] text-sm text-white focus:border-[#FACC15]"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <input
-                                    type="date"
-                                    value={data.visit_date}
-                                    onChange={e => setData('visit_date', e.target.value)}
-                                    className="w-full rounded-xl border-[#333333] bg-[#242424] text-sm text-white focus:border-[#FACC15]"
-                                />
-                            </div>
-                            <div>
-                                <textarea
-                                    placeholder="I'm interested in this property..."
-                                    rows={4}
-                                    value={data.message}
-                                    onChange={e => setData('message', e.target.value)}
-                                    className="w-full rounded-xl border-[#333333] bg-[#242424] text-sm text-white focus:border-[#FACC15]"
-                                />
-                            </div>
-
-                            <button
-                                type="submit"
-                                disabled={processing}
-                                className="w-full rounded-xl bg-[#FACC15] py-4 text-sm font-black text-[#121212] transition-all hover:brightness-110 active:scale-95 disabled:opacity-50"
-                            >
-                                {processing ? 'Sending...' : 'Request Visit Details'}
-                            </button>
-
-                            <p className="text-[10px] text-center text-[#A0A0A0] mt-4">
-                                By clicking the button you agree to our Terms of Service and Privacy Policy.
+                        {/* Description */}
+                        <div className="bg-[#242424] p-8 rounded-2xl border border-white/5 shadow-lg">
+                            <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                                <Tag className="w-5 h-5 text-[#FACC15]" />
+                                Descripción de la Propiedad
+                            </h2>
+                            <p className="text-white/70 leading-relaxed whitespace-pre-line">
+                                {data.description || 'Sin descripción disponible.'}
                             </p>
-                        </form>
+                        </div>
 
-                        {/* Agent Summary */}
-                        <div className="mt-8 border-t border-[#333333] pt-8">
+                        {/* Amenities */}
+                        <div className="bg-[#242424] p-8 rounded-2xl border border-white/5 shadow-lg">
+                            <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                                <CheckCircle2 className="w-5 h-5 text-[#FACC15]" />
+                                Comodidades y Servicios
+                            </h2>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                {data.amenities?.map((amenity) => (
+                                    <div key={amenity.id} className="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/5">
+                                        <div className="w-8 h-8 rounded-full bg-[#FACC15]/10 flex items-center justify-center">
+                                            <CheckCircle2 className="w-4 h-4 text-[#FACC15]" />
+                                        </div>
+                                        <span className="text-white/80 text-sm font-medium">{amenity.name}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* History Chart */}
+                        <PriceHistoryChart listings={data.listings || []} />
+                    </div>
+
+                    {/* Right Column: Sidebar */}
+                    <div className="space-y-8">
+                        {/* Agent Card */}
+                        <div className="bg-[#242424] p-6 rounded-2xl border border-white/5 shadow-xl">
+                            <h3 className="text-white/40 text-xs font-bold uppercase tracking-widest mb-4">Agente Responsable</h3>
                             <div className="flex items-center gap-4">
-                                <div className="h-12 w-12 rounded-full bg-[#333333] flex items-center justify-center text-white font-bold text-lg">
-                                    {property.agent?.name?.charAt(0)}
+                                <div className="w-12 h-12 rounded-full bg-[#1a1a1a] border border-[#FACC15]/20 flex items-center justify-center">
+                                    <User className="w-6 h-6 text-[#FACC15]" />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-bold text-white">{property.agent?.name}</p>
-                                    <p className="text-xs text-[#A0A0A0]">Licensed Professional Agent</p>
+                                    <div className="text-white font-bold">{data.user.name}</div>
+                                    <div className="text-white/40 text-xs">Consultor Inmobiliario</div>
                                 </div>
+                            </div>
+                        </div>
+
+                        {/* Property Specs */}
+                        <div className="bg-[#242424] p-6 rounded-2xl border border-white/5 shadow-xl space-y-4">
+                            <h3 className="text-white/40 text-xs font-bold uppercase tracking-widest mb-2">Detalles Técnicos</h3>
+                            <div className="flex justify-between text-sm py-2 border-b border-white/5">
+                                <span className="text-white/40">ID Propiedad</span>
+                                <span className="text-white font-mono text-xs">{data.id.split('-')[0]}</span>
+                            </div>
+                            <div className="flex justify-between text-sm py-2 border-b border-white/5">
+                                <span className="text-white/40">Tipo</span>
+                                <span className="text-white">{data.type}</span>
+                            </div>
+                            <div className="flex justify-between text-sm py-2 border-b border-white/5">
+                                <span className="text-white/40">Área Techada</span>
+                                <span className="text-white">{data.area_built || 0} m²</span>
+                            </div>
+                            <div className="flex justify-between text-sm py-2">
+                                <span className="text-white/40">Publicado</span>
+                                <span className="text-white">{data.created_at.human}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </AdminLayout>
+        </ClientLayout>
     );
-}
+};
+
+export default Show;

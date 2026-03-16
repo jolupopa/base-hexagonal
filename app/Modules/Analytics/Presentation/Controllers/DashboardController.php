@@ -12,7 +12,14 @@ class DashboardController extends Controller
 {
     public function __invoke()
     {
-        $companyId = Auth::user()->company_id;
+        $user = Auth::user();
+
+        // Si es admin o superusuario, redirigir al dashboard administrativo
+        if ($user->hasRole('admin') || $user->email === 'superusuario@demo.com') {
+            return redirect()->route('admin.dashboard');
+        }
+
+        $companyId = $user->company_id;
 
         return Inertia::render('Analytics::Dashboard', [
             'stats' => [

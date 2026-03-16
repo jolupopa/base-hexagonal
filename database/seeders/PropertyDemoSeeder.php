@@ -87,7 +87,6 @@ class PropertyDemoSeeder extends Seeder
                     'company_id' => $company->id,
                     'user_id' => $owner->id,
                     'category_id' => $category->id,
-                    'ubigeo_id' => $ubigeo->id,
                     'title' => "{$category->name} Premium en {$ubigeo->district} - #{$j}",
                     'description' => "Excelente oportunidad de {$operation}. Esta propiedad cuenta con acabados de lujo, amplios espacios y una ubicación privilegiada en {$ubigeo->district}, {$ubigeo->province}.",
                     'type' => $type,
@@ -99,10 +98,20 @@ class PropertyDemoSeeder extends Seeder
                     'bedrooms' => rand(1, 5),
                     'bathrooms' => rand(1, 4),
                     'parking_spots' => rand(0, 3),
-                    'address' => "Calle Los Alamos " . rand(100, 999),
                     'status' => 'published',
                     'is_featured' => ($j === 1)
                 ]);
+
+                // Create location via relationship
+                $property->address()->create([
+                    'company_id' => $company->id,
+                    'ubigeo_id' => $ubigeo->id,
+                    'address' => "Calle Los Alamos " . rand(100, 999),
+                    'reference' => 'Cerca al parque principal',
+                    'latitude' => -12.046374, // Coordenadas aproximadas de Lima
+                    'longitude' => -77.042793,
+                ]);
+
 
                 // Sync 3-5 random amenities
                 $property->amenities()->attach(

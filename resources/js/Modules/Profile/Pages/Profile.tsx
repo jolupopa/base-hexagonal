@@ -140,7 +140,7 @@ export default function Profile({ user: userWrapper }: { user: { data: ProfileUs
 
     return (
         <ClientLayout>
-            <Head title="Mi Perfil — EstateManager" />
+            <Head title="Mi Perfil — CrmSaas" />
 
             <div className="max-w-3xl mx-auto space-y-8">
                 {/* Hero del perfil */}

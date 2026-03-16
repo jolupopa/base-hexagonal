@@ -17,7 +17,7 @@ interface Props {
 export default function Dashboard({ stats }: Props) {
     return (
         <ClientLayout>
-            <Head title="Panel de Control — EstateManager" />
+            <Head title="Panel de Control — CrmSaas" />
 
             <div className="space-y-8">
                 {/* Page Header */}

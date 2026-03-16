@@ -29,7 +29,7 @@ const stageColors: Record<number, string> = {
 export default function Pipeline({ stages, leads }: Props) {
     return (
         <ClientLayout>
-            <Head title="Sales Pipeline — EstateManager" />
+            <Head title="Sales Pipeline — CrmSaas" />
 
             <div className="flex flex-col gap-8">
                 {/* Header */}

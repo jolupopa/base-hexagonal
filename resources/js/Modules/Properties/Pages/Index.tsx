@@ -78,7 +78,7 @@ export default function Index({ properties, stats, quotaInfo, isAdmin, filters, 
 
     return (
         <ClientLayout>
-            <Head title={isAdmin ? "Property Management — Admin" : "My Listings — EstateManager"} />
+            <Head title={isAdmin ? "Property Management — Admin" : "My Listings — CrmSaas"} />
 
             <div className="space-y-8 pb-10">
                 {/* Header Section */}

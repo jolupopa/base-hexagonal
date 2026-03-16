@@ -14,7 +14,7 @@ interface Props {
 export default function Edit({ property, ubigeos, amenities, categories }: Props) {
     return (
         <AdminLayout>
-            <Head title={`Edit ${property.title} — EstateManager`} />
+            <Head title={`Edit ${property.title} — CrmSaas`} />
 
             <div className="mx-auto max-w-5xl">
                 <div className="mb-12 flex items-center gap-6">

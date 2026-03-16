@@ -18,7 +18,7 @@ export default function TwoFactorChallenge() {
 
     return (
         <FrontLayout>
-            <Head title="Verificación en Dos Pasos — EstateManager" />
+            <Head title="Verificación en Dos Pasos — CrmSaas" />
 
             <div className="flex min-h-[calc(100vh-64px)] items-center justify-center p-4 bg-[#121212]">
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">

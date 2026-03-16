@@ -3,17 +3,38 @@
 namespace App\Modules\Properties\Domain\Models;
 
 use App\Core\BaseModel;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Traits\HasCompany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Modules\Projects\Domain\Models\Project;
+use App\Modules\Lands\Domain\Models\Land;
+
+use App\Traits\HasModularFactory;
 
 class Amenity extends BaseModel
 {
+    use HasCompany, HasFactory, HasModularFactory {
+        HasModularFactory::newFactory insteadof HasFactory;
+    }
+
     protected $fillable = [
+        'company_id',
         'name',
         'icon',
     ];
 
-    public function properties(): BelongsToMany
+    public function properties(): MorphToMany
     {
-        return $this->belongsToMany(Property::class);
+        return $this->morphedByMany(Property::class, 'amenityable');
+    }
+
+    public function projects(): MorphToMany
+    {
+        return $this->morphedByMany(Project::class, 'amenityable');
+    }
+
+    public function lands(): MorphToMany
+    {
+        return $this->morphedByMany(Land::class, 'amenityable');
     }
 }

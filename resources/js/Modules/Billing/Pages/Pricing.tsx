@@ -23,7 +23,7 @@ export default function Pricing({ plans }: Props) {
 
     return (
         <AdminLayout>
-            <Head title="Planes Premium — EstateManager" />
+            <Head title="Planes Premium — CrmSaas" />
 
             <div className="mx-auto max-w-5xl py-8">
                 {/* Header */}

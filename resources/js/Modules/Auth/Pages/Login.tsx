@@ -19,7 +19,7 @@ export default function Login() {
 
     return (
         <FrontLayout>
-            <Head title="Access Your Portfolio — EstateManager" />
+            <Head title="Access Your Portfolio — CrmSaas" />
 
             <div className="flex min-h-[calc(100vh-64px)] items-center justify-center p-4 bg-[#121212]">
                 {/* Subtle background glow */}

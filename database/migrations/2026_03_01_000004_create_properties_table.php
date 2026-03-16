@@ -15,7 +15,11 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('company_id')->constrained()->cascadeOnDelete();
             $table->foreignUuid('user_id')->constrained()->cascadeOnDelete(); // Agente responsable
-            $table->string('ubigeo_id', 6)->constrained('ubigeos');
+            $table->foreignUuid('project_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignUuid('category_id')->constrained()->cascadeOnDelete();
+            
+            $table->string('ubigeo_id', 6);
+            $table->foreign('ubigeo_id')->references('id')->on('ubigeos');
             
             $table->string('title');
             $table->text('description')->nullable();

@@ -20,7 +20,7 @@ export default function Register() {
 
     return (
         <FrontLayout>
-            <Head title="Launch Your Agency — EstateManager" />
+            <Head title="Launch Your Agency — CrmSaas" />
 
             <div className="flex min-h-[calc(100vh-64px)] items-center justify-center p-4 py-12 bg-[#121212]">
                 {/* Background glow */}

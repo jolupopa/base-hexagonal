@@ -17,7 +17,7 @@ interface Props {
 export default function PropertySearch({ properties, filters, categories, amenities }: Props) {
     return (
         <FrontLayout>
-            <Head title="Luxury Real Estate for Sale and Rent | EstateManager" />
+            <Head title="Luxury Real Estate for Sale and Rent | CrmSaas" />
 
             <div className="bg-[#121212] min-h-screen">
                 {/* ── Sub-header / Breadcrumbs ── */}

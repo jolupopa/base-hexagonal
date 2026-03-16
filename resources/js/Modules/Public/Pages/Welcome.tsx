@@ -14,7 +14,7 @@ interface Props {
 export default function Welcome({ featured = { data: [] }, categories = [] }: Props) {
     return (
         <FrontLayout>
-            <Head title="Find Your Golden Address | EstateManager Luxury Real Estate" />
+            <Head title="Find Your Golden Address | CrmSaas Luxury Real Estate" />
 
             <div className="bg-[#121212]">
                 {/* ── Hero Section ── */}
@@ -85,7 +85,7 @@ export default function Welcome({ featured = { data: [] }, categories = [] }: Pr
                             <span className="text-xs font-black uppercase tracking-widest text-[#FACC15]">Our Legacy</span>
                             <h2 className="mt-2 text-5xl font-black tracking-tight text-white leading-tight">Excellence in Every Transaction</h2>
                             <p className="mt-6 text-lg text-[#A0A0A0] leading-relaxed">
-                                EstateManager is more than a real estate agency, we are your strategic partner in the Middle Eastern luxury market. For over a decade, we've bridged the gap between extraordinary architecture and discerning buyers.
+                                CrmSaas is more than a real estate agency, we are your strategic partner in the Middle Eastern luxury market. For over a decade, we've bridged the gap between extraordinary architecture and discerning buyers.
                             </p>
 
                             <div className="grid grid-cols-2 gap-8 mt-12 mb-12">
@@ -152,7 +152,7 @@ export default function Welcome({ featured = { data: [] }, categories = [] }: Pr
                     <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center relative z-10">
                         <svg className="h-12 w-12 text-[#FACC15] mx-auto mb-8" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H16.017C14.9124 8 14.017 7.10457 14.017 6V3L14.017 1H17.017C18.1216 1 19.017 1.89543 19.017 3V5C20.1216 5 21.017 5.89543 21.017 7V15C21.017 17.2091 19.2261 19 17.017 19H14.017V21ZM5.017 21V19H2.017C0.912383 19 -0.0783511 17.2091 -0.0783511 15V7C-0.0783511 5.89543 0.817066 5 1.92165 5H4.92165V3C4.92165 1.89543 5.81707 1 6.92165 1H9.92165V3L9.92165 6C9.92165 7.10457 9.02622 8 7.92165 8H4.92165C4.36937 8 3.92165 8.44772 3.92165 9V15C3.92165 15.5523 4.36937 16 4.92165 16H7.92165C9.02622 16 9.92165 16.8954 9.92165 18V21H6.92165C5.81707 21 4.92165 20.1046 4.92165 19L5.017 21Z" /></svg>
                         <blockquote className="text-3xl font-black text-white italic leading-tight">
-                            "The level of professionalism and attention to detail provided by EstateManager is unparalleled. They didn't just find me a house; they secured an architectural masterpiece that perfectly aligned with my vision."
+                            "The level of professionalism and attention to detail provided by CrmSaas is unparalleled. They didn't just find me a house; they secured an architectural masterpiece that perfectly aligned with my vision."
                         </blockquote>
                         <div className="mt-10 flex flex-col items-center gap-4">
                             <div className="h-16 w-16 rounded-full border-2 border-[#FACC15] overflow-hidden">

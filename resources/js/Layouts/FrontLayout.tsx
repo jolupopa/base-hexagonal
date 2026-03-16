@@ -21,7 +21,7 @@ export default function FrontLayout({ children }: PropsWithChildren) {
                             </svg>
                         </div>
                         <span className="text-xl font-bold tracking-tight text-white">
-                            Estate<span className="text-[#FACC15]">Manager</span>
+                            Crm<span className="text-[#FACC15]">Saas</span>
                         </span>
                     </Link>
 
@@ -107,11 +107,11 @@ export default function FrontLayout({ children }: PropsWithChildren) {
                                 </svg>
                             </div>
                             <span className="text-lg font-bold text-white">
-                                Estate<span className="text-[#FACC15]">Manager</span>
+                                Crm<span className="text-[#FACC15]">Saas</span>
                             </span>
                         </Link>
                         <p className="text-sm text-[#A0A0A0]">
-                            © 2026 EstateManager. Premium Real Estate CRM Platform.
+                            © 2026 CrmSaas. Premium Real Estate CRM Platform.
                         </p>
                         <div className="flex gap-6">
                             <a href="#" className="text-[#A0A0A0] transition-colors hover:text-[#FACC15]">Twitter</a>

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('amenities', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignUuid('company_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('icon')->nullable(); // CSS class or icon name
             $table->timestamps();

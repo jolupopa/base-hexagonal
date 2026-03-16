@@ -111,7 +111,7 @@ export default function AdminLayout({ children }: PropsWithChildren) {
                         </div>
                         {!isSidebarCollapsed && (
                             <span className="text-xl font-black tracking-tighter text-white animate-in fade-in duration-500">
-                                Estate<span className="text-[#FACC15]">Manager</span>
+                                Crm<span className="text-[#FACC15]">Saas</span>
                             </span>
                         )}
                     </Link>
@@ -263,7 +263,7 @@ export default function AdminLayout({ children }: PropsWithChildren) {
                             <div className="h-6 w-6 rounded bg-[#333333] flex items-center justify-center">
                                 <svg className="h-4 w-4 text-[#A0A0A0]" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" /></svg>
                             </div>
-                            <p className="text-xs font-bold text-[#555555]">EstateManager © 2024</p>
+                            <p className="text-xs font-bold text-[#555555]">CrmSaas © 2026</p>
                         </div>
                         <div className="flex gap-8 text-[10px] font-black uppercase tracking-[0.2em] text-[#555555]">
                             <button className="hover:text-white transition-colors">Privacy Policy</button>

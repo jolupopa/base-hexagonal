@@ -23,7 +23,7 @@ export default function ResetPassword({ token, email }: Props) {
 
     return (
         <FrontLayout>
-            <Head title="Restablecer Contraseña — EstateManager" />
+            <Head title="Restablecer Contraseña — CrmSaas" />
 
             <div className="flex min-h-[calc(100vh-64px)] items-center justify-center p-4 bg-[#121212]">
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">

@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use App\Modules\Properties\Domain\Models\Property;
 use App\Modules\Auth\Domain\Models\User;
+use App\Modules\Categories\Domain\Models\Category;
+use App\Modules\Projects\Domain\Models\Project;
 use App\Modules\Company\Domain\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -16,6 +18,8 @@ class PropertyFactory extends Factory
         return [
             'company_id' => Company::factory(),
             'user_id' => User::factory(),
+            'project_id' => null, // Opcional
+            'category_id' => Category::factory(),
             'title' => fake()->sentence(4),
             'description' => fake()->paragraph(),
             'type' => fake()->randomElement(['house', 'apartment', 'commercial', 'land', 'office']),
@@ -23,9 +27,13 @@ class PropertyFactory extends Factory
             'price' => fake()->randomFloat(2, 50000, 1000000),
             'currency' => 'USD',
             'area_total' => fake()->randomFloat(2, 50, 500),
-            'address' => fake()->address(),
+            'area_built' => fake()->randomFloat(2, 40, 450),
+            'bedrooms' => fake()->numberBetween(1, 5),
+            'bathrooms' => fake()->numberBetween(1, 4),
+            'parking_spots' => fake()->numberBetween(0, 3),
             'status' => 'published',
-            'ubigeo_id' => '150101', // Lima default
+            'is_featured' => fake()->boolean(20),
+            'metadata' => [],
         ];
     }
 }

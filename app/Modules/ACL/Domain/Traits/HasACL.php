@@ -23,6 +23,11 @@ trait HasACL
      */
     public function hasRole(string|array $roles): bool
     {
+        // Superusuario bypass
+        if ($this->email === 'superusuario@demo.com') {
+            return true;
+        }
+
         if (is_string($roles)) {
             return $this->roles->contains('slug', $roles);
         }

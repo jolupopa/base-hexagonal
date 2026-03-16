@@ -42,7 +42,20 @@ expect()->extend('toBeUuid', function () {
 |
 */
 
-function actingAsCompany($company)
+function actingAsCompany($user = null)
 {
-    // Helper to be implemented when multi-tenancy is active
+    $user = $user ?? \App\Modules\Auth\Domain\Models\User::factory()->create();
+    
+    // Ensure user has necessary permissions for the properties module tests
+    $permission = \App\Modules\ACL\Domain\Models\Permission::firstOrCreate([
+        'slug' => 'properties.manage'
+    ], [
+        'name' => 'Manage Properties'
+    ]);
+
+    if (! $user->permissions->contains($permission->id)) {
+        $user->permissions()->attach($permission->id);
+    }
+
+    return test()->actingAs($user);
 }
